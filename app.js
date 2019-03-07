@@ -2,7 +2,6 @@ const chalk = require('chalk');
 const yargs = require('yargs');
 const note = require('./note');
 
-
 // Customize yargs version
 yargs.version('1.1.0');
 
@@ -13,19 +12,17 @@ yargs.command({
     builder:{
         title: {
             describe: 'Note Title',
-            // TODO: Make it true after add functionality
-            demandOption: false,
+            demandOption: true,
             type: 'string'
         },
         body: {
             describe: 'Note Body',
-             // TODO: Make it true after add functionality
-            demandOption: false,
+            demandOption: true,
             type: 'string'
         }
     },
     handler(argv) {
-        console.log("Note added");
+        note.addNote(argv.body, argv.title);
     }
 })
 

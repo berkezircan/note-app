@@ -13,7 +13,20 @@ const connection = mysql.createConnection({
 
 
 const addNote = (title, body) => {
+    connection.connect(function(err){
+        if(err) {
+            throw err;
+        }
     
+        console.log(chalk.green.inverse("Connected !"));
+        let sql = `INSERT INTO notes(title,body) VALUES('${title}','${body}')`;
+    
+        connection.query(sql,function(err,result){
+            console.log("1 record added");
+        })
+
+        connection.end();
+    })
 }
 
 const removeNote = title => {
