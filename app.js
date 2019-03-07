@@ -24,13 +24,46 @@ yargs.command({
     handler(argv) {
         note.addNote(argv.body, argv.title);
     }
-})
+});
 
+// List command
 yargs.command({
     command: "list",
     describe: "List All Notes",
     handler(){
         note.listNotes();
+    }
+});
+
+// Read command
+yargs.command({
+    command:'read',
+    describe: 'Read a Note',
+    builder: {
+        title: {
+            describe: 'Note Title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler(argv) {
+        note.readNote(argv.title);
+    }
+});
+
+// Remove command
+yargs.command({
+    command:'remove',
+    describe: 'Read a Note',
+    builder: {
+        title: {
+            describe: 'Note Title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler(argv){
+        note.removeNote(argv.title)
     }
 })
 

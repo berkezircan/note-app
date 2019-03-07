@@ -1,4 +1,3 @@
-const fs = require('fs');
 const chalk = require('chalk');
 
 const mysql = require('mysql');
@@ -11,9 +10,8 @@ const connection = mysql.createConnection({
 })
 
 
-
 const addNote = (title, body) => {
-    connection.connect(function(err){
+    connection.connect(err => {
         if(err) {
             throw err;
         }
@@ -21,16 +19,12 @@ const addNote = (title, body) => {
         console.log(chalk.green.inverse("Connected !"));
         let sql = `INSERT INTO notes(title,body) VALUES('${title}','${body}')`;
     
-        connection.query(sql,function(err,result){
+        connection.query(sql,(err,result) => {
             console.log("1 record added");
         })
 
         connection.end();
     })
-}
-
-const removeNote = title => {
-
 }
 
 // List all notes
@@ -53,12 +47,53 @@ const listNotes = () => {
         })
         connection.end();
     })
-
-    //connection.end();
 }
 
 const readNote = title => {
+    connection.connect(err => {
+        if(err) {
+            throw err;
+        }
 
+        let sql = `SELECT * from notes WHERE title = '${title}'`;
+        console.log(sql);
+        connection.query(sql, (err, result) => {
+            try {
+                console.log(chalk.green('Note title: ')+ result[0].title);
+                console.log(chalk.green('Note body: ')+ result[0].body);
+            } catch(e) {
+                console.log(chalk.red('Note not found'));
+            }
+        })
+        
+        connection.end();
+
+    })
+}
+
+// Remove Note
+const removeNote = title => {
+    connection.connect(err => {
+        if(err) {
+            throw err;
+        }
+
+        let sql = `DELETE FROM notes WHERE title = '${title}'`;
+        console.log(sql);
+        connection.query(sql, (err, result) => {
+            if(err){
+                throw err;
+            }
+            // No note found 
+            if(result.affectedRows === 0) {
+                console.log(chalk.red.inverse('Note already deleted..'));
+            } else {
+                console.log(chalk.green.inverse('Note deleted..'));
+            }
+        })
+
+        connection.end();
+    })
 }
 
 module.exports = {
