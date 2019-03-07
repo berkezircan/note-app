@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/berkezircan/note-app#readme",
   "dependencies": {
-    "chalk": "^2.4.2"
+    "chalk": "^2.4.2",
+    "yargs": "^13.2.2"
   }
 }
