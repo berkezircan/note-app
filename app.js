@@ -65,6 +65,32 @@ yargs.command({
     handler(argv){
         note.removeNote(argv.title)
     }
+});
+
+// Update Command
+yargs.command({
+    command: 'update',
+    describe: 'Update a note',
+    builder: {
+        title: {
+            describe: 'Note Title',
+            demandOption: true,
+            type: 'string'
+        },
+        newTitle: {
+            describe: 'Updated Title',
+            demandOption: true,
+            type: 'string'
+        },
+        newBody: {
+            describe: 'Updated Body',
+            demandOption: true,
+            type:'string'
+        }
+    },
+    handler(argv){
+        note.updateNote(argv.title, argv.newTitle, argv.newBody)
+    }
 })
 
 yargs.parse();

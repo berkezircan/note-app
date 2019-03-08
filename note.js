@@ -49,6 +49,7 @@ const listNotes = () => {
     })
 }
 
+// Read A Note
 const readNote = title => {
     connection.connect(err => {
         if(err) {
@@ -96,9 +97,35 @@ const removeNote = title => {
     })
 }
 
+// Update A Note
+const updateNote = (title, newTitle, newBody) => {
+    connection.connect(err => {
+        if(err) {
+            throw err;
+        }
+
+        let sql = `UPDATE notes SET title='${newTitle}', body='${newBody}' WHERE title='${title}'`;
+        connection.query(sql, (err, result) => {
+            if(err) {
+                throw err;
+            }
+
+                if(result.changedRows === 0) {
+                    console.log(chalk.red.inverse('No note found..'));
+                } else {
+                    console.log(chalk.green('Updated Title: ') + newTitle);
+                    console.log(chalk.green('Updated Body: ') + newBody)
+                }
+
+            connection.end();
+        })
+    })
+}
+
 module.exports = {
     addNote: addNote,
     removeNote: removeNote,
     listNotes: listNotes,
-    readNote: readNote
+    readNote: readNote,
+    updateNote: updateNote
 }
